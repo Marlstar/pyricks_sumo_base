@@ -17,19 +17,6 @@ hub = PrimeHub()
 watch = StopWatch()
 ultrasonic = UltrasonicSensor(Port.F)
 
-# Check if either side sees white
-def sees_white() -> bool:
-    return sees_white_sides() != (False, False)
-
-# Check if each side sees white
-def sees_white_sides() -> tuple[bool, bool]:
-    # If the left colour sensor's detected reflection value
-    # is over the threshold, it is white
-    left = colour_sensors.left.reflection() > constants.WHITE_THRESHOLD
-    # Same but for the right colour sensor
-    right = colour_sensors.right.reflection() > constants.WHITE_THRESHOLD
-    # Return both sides individually
-    return (left, right)
 
 # Set motor powers
 def set_motor_powers(left: int, right: int):
@@ -62,7 +49,7 @@ while True:
     # STATE: Charge
     elif state == states.CHARGE:
         # Check if the robot sees the white line
-        if sees_white(): 
+        if colour_sensors.sees_white(): 
             print("Line detected! Stopping motors.")
             # Stop both motors
             set_motor_powers(0,0)
@@ -88,5 +75,5 @@ while True:
         print("Backing up after line detection...")
         set_motor_powers(-50, -50) # Set both motors to go backwards
         # Don't go back to searching until we are no longer on the line
-        if not sees_white():
+        if not colour_sensors.sees_white():
             state = states.SEARCHING
