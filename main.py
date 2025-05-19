@@ -1,6 +1,5 @@
 # Import all the pybricks things we need
 from pybricks.hubs import PrimeHub
-from pybricks.robotics import DriveBase
 from pybricks.pupdevices import Motor, ColorSensor, UltrasonicSensor
 from pybricks.parameters import Direction, Port
 from pybricks.tools import wait, StopWatch
@@ -19,8 +18,6 @@ right_motor = Motor(Port.B)
 left_colour = ColorSensor(Port.C)
 right_colour = ColorSensor(Port.D)
 ultrasonic = UltrasonicSensor(Port.F)
-# Setup the robot
-robot = DriveBase(left_motor, right_motor, 60, 150)
 
 # Check if either side sees white
 def sees_white() -> bool:
@@ -62,7 +59,7 @@ while True:
             state = states.CHARGE # Charge
         else:
             print("Turning to search...")
-            robot.drive(0, 100) # Rotate
+            set_motor_powers(-50, 50) # Rotate
 
     # STATE: Charge
     elif state == states.CHARGE:
