@@ -67,8 +67,7 @@ while True:
         if sees_white(): 
             print("Line detected! Stopping motors.")
             # Stop both motors
-            left_motor.dc(0)
-            right_motor.dc(0)
+            set_motor_powers(0,0)
             ultrasonic.lights.off()
             state = states.LINE_DETECTED
         else:
