@@ -1,20 +1,18 @@
 # Import all the pybricks things we need
 from pybricks.hubs import PrimeHub
-from pybricks.pupdevices import Motor, UltrasonicSensor
-from pybricks.parameters import Direction, Port
 from pybricks.tools import wait, StopWatch
 
 # Import our things to use
 from . import constants # Numbers
 from . import states # States
-from . import colour_sensors # Colour sensors
 from . import motors # Motors
+from . import colour_sensors # Colour sensors
+from . import ultrasonic # Ultrasonic Sensor
 from . import util # Utilities
 
 # Setup hub and watch
 hub = PrimeHub()
 watch = StopWatch()
-ultrasonic = UltrasonicSensor(Port.F)
 
 # States
 state = states.SEARCHING
@@ -37,7 +35,7 @@ while True:
             state = states.CHARGE # Charge
         else:
             print("Turning to search...")
-            set_motor_powers(-50, 50) # Rotate
+            motors.set_powers(-50, 50) # Rotate
 
     # STATE: Charge
     elif state == states.CHARGE:
@@ -45,11 +43,11 @@ while True:
         if colour_sensors.sees_white(): 
             print("Line detected! Stopping motors.")
             # Stop both motors
-            set_motor_powers(0,0)
-            ultrasonic.lights.off()
+            motors.set_powers(0,0)
+            ultrasonic.lights_off()
             state = states.LINE_DETECTED
         else:
-            ultrasonic.lights.on(100)
+            ultrasonic.lights_on()
             # Gradual ramp-up with a 25 min and 70 max power
             MIN_POWER = 25
             MAX_POWER = 70
@@ -61,12 +59,12 @@ while True:
 
             print(f"Charging with power: {power}")
             # Set both motors to drive at the power we calculated
-            set_motor_powers(power, power)
+            motors.set_powers(power, power)
 
     # STATE: Line detected
     elif state == states.LINE_DETECTED:
         print("Backing up after line detection...")
-        set_motor_powers(-50, -50) # Set both motors to go backwards
+        motors.set_powers(-50, -50) # Set both motors to go backwards
         # Don't go back to searching until we are no longer on the line
         if not colour_sensors.sees_white():
             state = states.SEARCHING
