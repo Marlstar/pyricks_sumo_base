@@ -3,19 +3,18 @@ from pybricks.hubs import PrimeHub
 from pybricks.pupdevices import Motor, UltrasonicSensor
 from pybricks.parameters import Direction, Port
 from pybricks.tools import wait, StopWatch
+
 # Import our things to use
-from . import constants
-from . import states
-from . import colour_sensors
-from . import util
+from . import constants # Numbers
+from . import states # States
+from . import colour_sensors # Colour sensors
+from . import motors # Motors
+from . import util # Utilities
 
 
 # Setup hub and watch
 hub = PrimeHub()
 watch = StopWatch()
-# Initialise motors
-left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
-right_motor = Motor(Port.B)
 ultrasonic = UltrasonicSensor(Port.F)
 
 # Check if either side sees white
@@ -34,8 +33,8 @@ def sees_white_sides() -> tuple[bool, bool]:
 
 # Set motor powers
 def set_motor_powers(left: int, right: int):
-    left_motor.dc(left)
-    right_motor.dc(right)
+    motors.left.dc(left)
+    motors.right.dc(right)
 
 # States
 state = states.SEARCHING
