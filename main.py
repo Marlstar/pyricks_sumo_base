@@ -1,12 +1,14 @@
 # Import all the pybricks things we need
 from pybricks.hubs import PrimeHub
-from pybricks.pupdevices import Motor, ColorSensor, UltrasonicSensor
+from pybricks.pupdevices import Motor, UltrasonicSensor
 from pybricks.parameters import Direction, Port
 from pybricks.tools import wait, StopWatch
 # Import our things to use
 from . import constants
 from . import states
+from . import colour_sensors
 from . import util
+
 
 # Setup hub and watch
 hub = PrimeHub()
@@ -14,9 +16,6 @@ watch = StopWatch()
 # Initialise motors
 left_motor = Motor(Port.A, Direction.COUNTERCLOCKWISE)
 right_motor = Motor(Port.B)
-# Initialise sensors
-left_colour = ColorSensor(Port.C)
-right_colour = ColorSensor(Port.D)
 ultrasonic = UltrasonicSensor(Port.F)
 
 # Check if either side sees white
@@ -27,9 +26,9 @@ def sees_white() -> bool:
 def sees_white_sides() -> tuple[bool, bool]:
     # If the left colour sensor's detected reflection value
     # is over the threshold, it is white
-    left = left_colour.reflection() > constants.WHITE_THRESHOLD
+    left = colour_sensors.left.reflection() > constants.WHITE_THRESHOLD
     # Same but for the right colour sensor
-    right = right_colour.reflection() > constants.WHITE_THRESHOLD
+    right = colour_sensors.right.reflection() > constants.WHITE_THRESHOLD
     # Return both sides individually
     return (left, right)
 
