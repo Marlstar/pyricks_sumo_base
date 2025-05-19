@@ -11,17 +11,10 @@ from . import colour_sensors # Colour sensors
 from . import motors # Motors
 from . import util # Utilities
 
-
 # Setup hub and watch
 hub = PrimeHub()
 watch = StopWatch()
 ultrasonic = UltrasonicSensor(Port.F)
-
-
-# Set motor powers
-def set_motor_powers(left: int, right: int):
-    motors.left.dc(left)
-    motors.right.dc(right)
 
 # States
 state = states.SEARCHING
