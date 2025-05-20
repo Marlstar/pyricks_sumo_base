@@ -1,3 +1,3 @@
-LINE_DETECTED = 0
-CHARGE = 1
-SEARCHING = 2
+LINE_DETECTED = "line detected"
+CHARGE = "charge"
+SEARCHING = "searching"
